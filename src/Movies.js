@@ -3,18 +3,28 @@ import Like from './common/Like';
 import { getMovies} from './services/fakeMovieService';
 import Pagination from './common/pagination';
 import paginate from './utils/paginate'; 
+import ListGroup from './common/ListGroup';
+import {getGenres} from './services/fakeGenreService';
 
 class Movies extends Component {
     state = { 
-        movies: getMovies(), 
+        movies: [], 
         count: getMovies().length,
         currentPage: 1, 
-        pageSize: 4
+        pageSize: 4, 
+        genres: [], 
+        currentgenre: null
        
      }
 
+
+     componentDidMount(){
+         const genres = [{name:"All Genres"},...getGenres()]; 
+         this.setState({genres, movies: getMovies()});  
+     }
+
      style = {
-         padding: "20px"
+         padding: "40px"
      };
 
      handleDelete = (movie) => {
@@ -41,24 +51,39 @@ class Movies extends Component {
          movies[index].liked = !movies[index].liked; 
          this.setState({ movies}); 
      }
+     handleListGroupClick = genre =>
+     {
+         console.log("clicked", genre);
+        this.setState({currentgenre: genre,currentPage:1}); 
+     
+     }
 
      
     render() { 
         
-        const {pageSize, currentPage} = this.state; 
+        const {pageSize, currentPage,genres,currentgenre,movies: allMovies} = this.state; 
         if (this.state.count === 0) { 
             return <p align = "center" className = "lead" style = {this.style}> There are no movies </p> 
         }
-        const movies = paginate(this.state.movies,currentPage, pageSize); 
+        const filtered = currentgenre && currentgenre._id ? allMovies.filter((movie) => movie.genre._id === currentgenre._id) : allMovies ; 
+              
+        
+       
+        const movies = paginate(filtered,currentPage, pageSize); 
 
 
         return (  
            
+          <div className = "row">
+           <div className = "col-3">
+              
+               <ListGroup onClick = {this.handleListGroupClick} 
+               items = {genres}
+               currentGenre = {currentgenre}/>
+           </div> 
 
-           
-
-            <React.Fragment>     
-            <p align = "center" className = "lead" style = {this.style}> Showing {this.state.count} movies </p> 
+            <div className = "col">     
+            <p align = "center" className = "lead" style = {this.style}> Showing {filtered.length} movies </p> 
             <table className = "table"> 
              
                 <thead>
@@ -87,15 +112,19 @@ class Movies extends Component {
 
                         })} 
                         
-
+            
+        
                      
                  </tbody>
             </table>
-            <Pagination itemsCount = {this.state.count}
+            <Pagination itemsCount = {filtered.length}
             pageSize = {pageSize}
             onPageChange = {this.handlePageChange}
             currentPage = {currentPage} />
-            </React.Fragment>
+
+            </div>
+        
+        </div>
        
             
 
