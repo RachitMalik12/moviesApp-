@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Like from './common/Like';
+
 import { getMovies} from './services/fakeMovieService';
 import Pagination from './common/pagination';
 import paginate from './utils/paginate'; 
