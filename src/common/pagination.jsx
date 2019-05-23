@@ -20,7 +20,7 @@ return (
                  
                 <li key= {page} className = {page === currentPage ? 'page-item active' 
             : 'page-item'}> 
-            <a  href= "#" onClick = {() => onPageChange(page) }
+            <a onClick = {() => onPageChange(page) }
             className = "page-link"> {page}</a> 
                 </li>
 
