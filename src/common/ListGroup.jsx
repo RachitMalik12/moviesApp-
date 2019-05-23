@@ -8,9 +8,10 @@ class ListGroup extends Component {
             <ul className = "list-group">
 
             {items.map(
-                item => ( (item ===currentGenre)? <li key = {item[valueProperty]} 
+                item => ( (item ===currentGenre)? <li
+                className = "clickable" key = {item[valueProperty]} 
                 onClick = {() => this.props.onClick(item)} className="list-group-item active">{item[textProperty]}</li> : 
-                <li key = {item[valueProperty]}  onClick = {()=> this.props.onClick(item)} className = "list-group-item"> {item[textProperty]} </li> ))}
+                <li className = "clickable" key = {item[valueProperty]}  onClick = {()=> this.props.onClick(item)} className = "list-group-item"> {item[textProperty]} </li> ))}
                 
         
             

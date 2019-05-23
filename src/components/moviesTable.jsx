@@ -1,11 +1,10 @@
 
 import React, { Component } from 'react';
 import Like from '../common/Like'; 
-import TableHeader from '../common/tableHeader';
-import TableBody from '../common/tableBody';
+import Table from '../common/Table';
 
 class MoviesTable extends Component {
-    coloumns = [
+    columns = [
         {path:'title',label:'Title'},
         {path:'genre.name',label:'Genre'},
         {path:'numberInStock',label:'Stock'},
@@ -22,17 +21,7 @@ class MoviesTable extends Component {
         
         const {movies,sortColumn,onSort} = this.props; 
         return (  
-            <table className = "table"> 
-                 
-             <TableHeader coloumns = {this.coloumns}
-                          onSort = {onSort}
-                          sortColumn = {sortColumn} />
-            <TableBody data = {movies} 
-                        columns = {this.coloumns}/>
-
-           
-          
-        </table>
+          <Table columns = {this.columns} data ={movies} onSort={onSort} sortColumn = {sortColumn} />
         );
     }
 }
