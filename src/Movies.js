@@ -8,6 +8,7 @@ import {getGenres} from './services/fakeGenreService';
 import MoviesTable from './components/moviesTable';
 import _ from 'lodash'; 
 
+
 class Movies extends Component {
     state = { 
         movies: [], 
@@ -103,6 +104,8 @@ class Movies extends Component {
         const {totalCount, data} = this.getPageddata(); 
 
         return (  
+        
+   
            
           <div className = "row">
            <div className = "col-3">
@@ -128,6 +131,7 @@ class Movies extends Component {
             </div>
         
         </div>
+    
        
             
 
