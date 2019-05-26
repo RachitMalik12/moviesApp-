@@ -7,6 +7,9 @@ import ListGroup from './common/ListGroup';
 import {getGenres} from './services/fakeGenreService';
 import MoviesTable from './components/moviesTable';
 import _ from 'lodash'; 
+import { isPipelinePrimaryTopicReference } from '@babel/types';
+import { smart } from '@babel/template';
+import { Link } from 'react-router-dom';
 
 
 class Movies extends Component {
@@ -104,7 +107,9 @@ class Movies extends Component {
         const {totalCount, data} = this.getPageddata(); 
 
         return (  
-        
+         
+           <React.Fragment>
+          
    
            
           <div className = "row">
@@ -117,6 +122,13 @@ class Movies extends Component {
 
             <div className = "col">     
             <p align = "center" className = "lead" style = {this.style}> Showing {totalCount} movies </p> 
+
+            <Link to = "/movies/new"
+                 className = "btn btn-primary"
+                 style = {{marginBottom: 20}}
+                 >
+                  New Movie    
+                 </Link>
             <MoviesTable movies = {data}
                          onDelete = {this.handleDelete}
                          sortColumn = {sortColumn}
@@ -131,6 +143,8 @@ class Movies extends Component {
             </div>
         
         </div>
+
+        </React.Fragment>
     
        
             
