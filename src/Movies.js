@@ -7,9 +7,8 @@ import ListGroup from './common/ListGroup';
 import {getGenres} from './services/fakeGenreService';
 import MoviesTable from './components/moviesTable';
 import _ from 'lodash'; 
-import { isPipelinePrimaryTopicReference } from '@babel/types';
-import { smart } from '@babel/template';
 import { Link } from 'react-router-dom';
+import Search from './components/search';
 
 
 class Movies extends Component {
@@ -20,6 +19,7 @@ class Movies extends Component {
         pageSize: 4, 
         genres: [], 
         currentgenre: null, 
+        searchQuery: "", 
         sortColumn: {
             path:'title',
             order:'asc'
@@ -73,6 +73,10 @@ class Movies extends Component {
 
          this.setState({sortColumn}); 
      }; 
+
+     handleSearch = value =>{
+         this.setState({currentgenre: null, currentPage: 1, searchQuery: value}); 
+     }
     getPageddata = () => {
 
 
@@ -81,8 +85,19 @@ class Movies extends Component {
             currentPage,
             currentgenre,
             movies: allMovies,
-            sortColumn } = this.state; 
-        const filtered = currentgenre && currentgenre._id ? allMovies.filter((movie) => movie.genre._id === currentgenre._id) : allMovies ; 
+            sortColumn,
+            searchQuery } = this.state; 
+        let filtered = allMovies; 
+        if (searchQuery){
+            filtered = allMovies.filter(m => m.title.toLowerCase().startsWith(searchQuery.toLowerCase()));
+        }
+        else if (currentgenre && currentgenre._id){
+            filtered  = allMovies.filter(m=> m.genre._id === currentgenre._id);
+
+        }
+
+    
+        
         const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]); 
               
         
@@ -99,6 +114,7 @@ class Movies extends Component {
             currentPage,
             genres,
             currentgenre,
+            searchQuery,
             sortColumn } = this.state; 
         if (this.state.count === 0) { 
             return <p align = "center" className = "lead" style = {this.style}> There are no movies </p> 
@@ -120,15 +136,15 @@ class Movies extends Component {
                currentGenre = {currentgenre}/>
            </div> 
 
-            <div className = "col">     
-            <p align = "center" className = "lead" style = {this.style}> Showing {totalCount} movies </p> 
-
+            <div className = "col">    
             <Link to = "/movies/new"
                  className = "btn btn-primary"
-                 style = {{marginBottom: 20}}
-                 >
+                 style = {{marginBottom: 20}}>
                   New Movie    
-                 </Link>
+                 </Link> 
+            <p align = "left"> Showing {totalCount} movies </p> 
+             <Search value ={searchQuery} onChange = {this.handleSearch} /> 
+          
             <MoviesTable movies = {data}
                          onDelete = {this.handleDelete}
                          sortColumn = {sortColumn}
