@@ -64,7 +64,7 @@ class Movies extends Component {
      handleListGroupClick = genre =>
      {
    
-        this.setState({currentgenre: genre,currentPage:1}); 
+        this.setState({currentgenre: genre,currentPage:1,searchQuery:""}); 
      
      }
 
