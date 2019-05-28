@@ -4,7 +4,7 @@ import { getMovies} from './services/fakeMovieService';
 import Pagination from './common/pagination';
 import paginate from './utils/paginate'; 
 import ListGroup from './common/ListGroup';
-import {getGenres} from './services/fakeGenreService';
+import {getGenres} from './services/genreService';
 import MoviesTable from './components/moviesTable';
 import _ from 'lodash'; 
 import { Link } from 'react-router-dom';
@@ -28,10 +28,10 @@ class Movies extends Component {
      }
 
 
-       componentDidMount(){
+      async componentDidMount(){
 
-        const genresInit = getGenres(); 
-         const genres = [{_id: "", name:"All Genres"},...genresInit]; 
+         const  {data} = await getGenres(); 
+         const genres = [{_id: "", name:"All Genres"},...data]; 
          this.setState({genres, movies: getMovies()});  
      }
 

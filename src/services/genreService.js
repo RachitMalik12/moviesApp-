@@ -1,10 +1,10 @@
 import httpService from './httpService'; 
 import config from '../common/config.json'; 
 
-export async function getGenres() {
+export function getGenres() {
    
-   const result = await  httpService.get(config.genreEndPoint); 
-   return result; 
+   return httpService.get(config.genreEndPoint); 
+   
 
 }
 
